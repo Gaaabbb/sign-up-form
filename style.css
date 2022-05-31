@@ -31,6 +31,7 @@
     height: 100vh;
     position: fixed;
     z-index: -1;
+    transition: 200ms linear;
 }
 
 .all-content {
@@ -40,6 +41,7 @@
     align-items: center;
     gap: 20px;
     position: static;
+    padding-bottom: 5vw;
 }
 
 .title {
@@ -101,25 +103,24 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1em;
+    gap: 0px 20px;
 }
 
 .input-container {
     position: relative;
     width: 90%;
-    height: calc(1.3vw + 1.5rem);
 }
 
 input {
     cursor: text;
     width: 100%;
-    height: 100%;
+    height: calc(1.3vw + 1.5rem);
     background-color: transparent;
     color: var(--main-color);
     border: 2px solid var(--main-color);
     font-family: Font-1;
     font-size: var(--font-size-1);
-    padding: 2% .3rem .2%;
+    padding: calc(1vw) .3rem calc(0vw);
     
 }
 
@@ -135,22 +136,36 @@ input:focus {
     color: var(--main-color);
     position: absolute;
     top: 0%;
-    left: 6%;
+    left: 3%;
     transition: 200ms ease-in;
 }
 
-.input:focus + label {
+input:focus + label {
     color: white;
 }
 
 input:focus + label,
 input:not(:placeholder-shown) + label {
     background-color: black;
-    font-size: calc(1vw + .5rem);
-    top: -30%;
+    font-size: calc(.7vw + .5rem);
+    top: calc(-.6vw + -.2rem);
     left: 4%;
     padding: 0% 1%;
     transition: 200ms ease-in;
+
+}
+
+.input-container > div {
+    color: #ff5f5f;
+    font-family: Font-1;
+    font-size: calc(.5vw + .6rem);
+    height: calc((.5vw + .6rem)*2);
+    margin-top: 2px;
+}
+
+.pw-error-container {
+    height: auto !important;
+    margin-bottom: calc((.5vw + .6rem)*2);
 }
 
 .button-border {
@@ -163,6 +178,7 @@ input:not(:placeholder-shown) + label {
     justify-content: center;
     position: relative;
     top: calc(1.5vw + 1.5rem);
+    transition: 50ms linear;
 }
 
 .button-border:hover {
@@ -183,14 +199,16 @@ button {
 .rehab-question {
     font-family: Font-1;
     font-size: calc(1vw + .8rem);
-    margin-top: calc(.5vw + 20px);
+    margin-top: calc(1.7vw + 1.5rem);
     color: white;
-    -webkit-text-stroke: .5px;
+    -webkit-text-stroke: .4px;
     -webkit-text-stroke-color: black;
+    background-color: rgba(0, 0, 0, 70%);
+    padding: 0px 6px;
 }
 
 a {
-    color: gray;
+    color: rgb(199, 199, 199);
     text-decoration: none;
 }
 
@@ -199,6 +217,9 @@ img {
     margin-bottom: 20px;
 }
 
+.all-input-container > div:last-child > div {
+    position: absolute;
+}
 @media screen and (min-width: 992px) {
     .all-content {
         width: 60vw;
@@ -208,6 +229,10 @@ img {
 
     .header {
         background-color: transparent;
+    }
+
+    #form {
+        padding-bottom: 20px;
     }
 
     .all-input-container {
@@ -220,9 +245,21 @@ img {
         width: 45%;
     }
 
+    .pw-error-container {
+        position: absolute;
+    }
+
+    .button-border {
+        top: 80px;
+    }
+
+    .rehab-question {
+        background-color: transparent;
+    }
+
     img {
         position: absolute;
-        bottom: -20px;
+        bottom: calc(3vw + 10px);
         right: 10px
     }
 }

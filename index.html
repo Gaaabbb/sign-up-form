@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -20,34 +20,51 @@
         </div>
         <div class="below-area">
             <div class="form-border">
-                <form method="get" id="form">
+                <form method="post" id="form">
                     <div class="input-header">Join the rehabilitation towards freedom
                         and avoid the ruin that awaits you.
                     </div>
                     <div class="all-input-container">
                         <div class="input-container">
-                            <input type="text" id="first-name" name="first-name" placeholder=" ">
+                            <input type="text" id="first-name" name="first-name" 
+                            placeholder=" " autocomplete="off" required>
                             <label class="input-label" for="first-name">First Name</label>
+                            <div></div>
                         </div>
                         <div class="input-container">
-                            <input type="text" id="last-name" name="last-name" placeholder=" ">
+                            <input type="text" id="last-name" name="last-name" 
+                                placeholder=" " autocomplete="off" required>
                             <label class="input-label" for="last-name">Last Name</label>
+                            <div></div>
                         </div>
                         <div class="input-container">
-                            <input type="email" id="user-email" name="user-email" placeholder=" ">
-                            <label class="input-label" for="user-email">Email</label>
+                            <input type="email" id="email" name="email" placeholder=" " 
+                                autocomplete="off" required>
+                            <label class="input-label" for="email">Email</label>
+                            <div></div>
                         </div>
                         <div class="input-container">
-                            <input type="text" id="phone-number" name="phone-number" placeholder=" ">
+                            <input type="tel" id="phone-number" name="phone-number" placeholder=" " 
+                                pattern="\+?\d+" autocomplete="off" required>
                             <label class="input-label" for="phone-number">Phone Number</label>
+                            <div></div>
                         </div>
                         <div class="input-container">
-                            <input type="text" id="password" name="password" placeholder=" ">
+                            <input type="text" id="password" name="password" placeholder=" " 
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
                             <label class="input-label" for="password">Password</label>
+                            <div class="pw-error-container">
+                                <div class="pw-error" id="pw-upper-error"></div>
+                                <div class="pw-error" id="pw-lower-error"></div>
+                                <div class="pw-error" id="pw-digit-error"></div>
+                                <div class="pw-error" id="pw-min-char-error"></div>
+                            </div>
                         </div>
                         <div class="input-container">
-                            <input type="text" id="confirm-password" name="confirm-password" placeholder=" ">
+                            <input type="text" id="confirm-password" name="confirm-password" 
+                                placeholder=" " required>
                             <label class="input-label" for="confirm-password">Confirm Password</label>
+                            <div></div>
                         </div>
                         
                     </div>
@@ -62,5 +79,177 @@
             <img src="take-your-time.png" alt="Take Your Time">
         </div>
     </div>
+
+<script>
+    const allInput = document.querySelectorAll('input');
+    const submitButton = document.querySelector('#join-button');
+        
+    const fNameErrMsg = "PLEASE INCLUDE YOUR FIRST NAME";
+    const lNameErrMsg = "PLEASE INCLUDE YOUR LAST NAME";
+    const emailErrMsg = "PLEASE ENTER A VALID EMAIL ADDRESS";
+    const phoneNumErrMsg = "PLEASE ENTER A VALID PHONE NUMBER";
+    const pwErrMsg = "PLEASE ENTER THE REQUIRED PASSWORD";
+    const pwUpperErrMsg = "MISSING AT LEAST 1 UPPERCASE LETTER";
+    const pwLowerErrMsg = "MISSING AT LEAST 1 LOWERCASE LETTER";
+    const pwDigitErrMsg = "MISSING AT LEAST 1 DIGIT";
+    const pwMinCharErrMsg = "MUST CONTAIN AT LEAST 8 CHARACTERS";
+    const conPwErrMsg = "PASSWORD MISMATCH";
+    
+    const pwErrContainer = document.querySelectorAll('.pw-error');
+    const pwUpperErrDiv = document.getElementById('pw-upper-error');
+    const pwLowerErrDiv = document.getElementById('pw-lower-error');
+    const pwDigitErrDiv = document.getElementById('pw-digit-error');
+    const pwMinCharErrDiv = document.getElementById('pw-min-char-error');
+
+    function getTextOfLastChild(a) {
+        return a.parentElement.lastElementChild.innerText;
+    }
+    function displayError(a, b) {
+        a.parentElement.lastElementChild.innerText = b;
+    }
+
+    function removeError(a) {
+        a.parentElement.lastElementChild.innerText = "";
+    }
+
+    function displayPwError(a, b) {
+        document.querySelector(a).innerText = b;
+    }
+
+    function removePwError(a) {
+        document.querySelector(a).innerText = "";
+    }
+
+    function setInvalidMsg(a, b) {
+        a.setCustomValidity(b);
+        a.reportValidity();
+    }
+
+    function setValid(a) {
+        a.setCustomValidity("");
+        a.reportValidity();
+    }
+
+    function validatePw(a) {
+        let pwArray = [];
+        pwErrContainer.forEach(e => {
+            if (e.textContent === "") pwArray.push('valid');
+            else pwArray.push('invalid');
+        })
+        
+        if (pwArray.includes('invalid')) return 'invalid';
+        else return 'valid';
+    }
+
+
+
+    allInput.forEach((input) => { 
+        input.addEventListener('input', (e) => {
+            const currentInput = e.target;
+            const inputId = currentInput.id;
+            const inputValue = currentInput.value;
+
+            if (inputId == "first-name") {
+                inputValue == "" ? displayError(currentInput, fNameErrMsg)
+                : removeError(currentInput);
+                if (getTextOfLastChild(currentInput) == "") setValid(currentInput);
+            } 
+
+                else if (inputId == "last-name") {
+                    inputValue == "" ? 
+                    displayError(currentInput, lNameErrMsg) : removeError(currentInput);
+                    if (getTextOfLastChild(currentInput) == "") setValid(currentInput);
+                }
+
+                else if (inputId == "email") {
+                    currentInput.validity.typeMismatch == true ? 
+                    displayError(currentInput, emailErrMsg) : removeError(currentInput);
+                    if (getTextOfLastChild(currentInput) == "") setValid(currentInput);
+                } 
+                
+                else if (inputId == "phone-number") {
+                    /^\+?\d*$/.test(inputValue) ? removeError(currentInput) 
+                    : displayError(currentInput, phoneNumErrMsg);
+                    if (getTextOfLastChild(currentInput) == "") setValid(currentInput);
+                } 
+
+                else if (inputId == "password") {
+                    (/[A-Z]/.test(inputValue)) ? removePwError("#pw-upper-error")
+                    : displayPwError("#pw-upper-error", pwUpperErrMsg);
+
+                    (/[a-z]/.test(inputValue)) ? removePwError("#pw-lower-error")
+                    : displayPwError("#pw-lower-error", pwLowerErrMsg);
+
+                    (/\d/.test(inputValue)) ? removePwError("#pw-digit-error")
+                    : displayPwError("#pw-digit-error", pwDigitErrMsg);
+
+                    inputValue.length >= 8 ? removePwError("#pw-min-char-error")
+                    : displayPwError("#pw-min-char-error", pwMinCharErrMsg);
+
+                    if (validatePw() == 'valid') setValid(currentInput);
+                }
+                
+                else if (inputId == "confirm-password") {
+                    inputValue !== password.value ?
+                    displayError(currentInput, conPwErrMsg) : removeError(currentInput);
+                    if (getTextOfLastChild(currentInput) === "") setValid(currentInput);
+                }
+            });
+        })
+
+    submitButton.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        for (input of allInput) {
+            if (input.value == "") {
+                if (input.id == "first-name") displayError(input, fNameErrMsg);
+                else if (input.id == "last-name") displayError(input, lNameErrMsg);
+                else if (input.id == "email") displayError(input, emailErrMsg);
+                else if (input.id == "phone-number") displayError(input, phoneNumErrMsg);
+                else if (input.id == "password") {
+                    removePwError("#pw-upper-error");
+                    removePwError("#pw-lower-error");
+                    removePwError("#pw-digit-error");
+                    removePwError("#pw-min-char-error");
+                    displayPwError("#pw-upper-error", pwErrMsg); 
+                }
+                else if (input.id == "confirm-password") displayError(input, conPwErrMsg);
+            }
+        }
+        for (input of allInput) {
+            if (getTextOfLastChild(input) !== "") {
+                if (input.id == "first-name") {
+                    setInvalidMsg(input, fNameErrMsg);
+                    return;
+                }
+                else if (input.id == "last-name") {
+                    setInvalidMsg(input, lNameErrMsg);
+                    return;
+                }
+                else if (input.id == "email") {
+                    setInvalidMsg(input, emailErrMsg);
+                    return;
+                }
+                else if (input.id == "phone-number") {
+                    setInvalidMsg(input, phoneNumErrMsg);
+                    return;
+                }
+                else if (input.id == "password") {
+                    setInvalidMsg(input, pwErrMsg);
+                    return;
+                }
+                else if (input.id == "confirm-password") {
+                    setInvalidMsg(input, conPwErrMsg);
+                    return;
+                }
+            }
+        }
+        for (input of allInput) {
+            if (getTextOfLastChild(input) !== "") return;
+            document.querySelector('form').submit();
+            return;
+        }
+    })        
+    </script>
 </body>
 </html>
