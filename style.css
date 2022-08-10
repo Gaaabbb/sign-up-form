@@ -1,16 +1,16 @@
 @font-face {
     font-family: Font-1;
-    src: url(p5hatty.ttf);
+    src: url(fonts/p5hatty.ttf);
 }
 
 @font-face {
     font-family: Font-2;
-    src: url(expose-font/Expose-Regular.otf);
+    src: url(fonts/expose-font/Expose-Regular.otf);
 }
 
 @font-face {
     font-family: Font-3;
-    src: url(earwig_factory/earwig\ factory\ rg.ttf);
+    src: url(fonts/earwig_factory/earwig\ factory\ rg.ttf);
 }
 
 * {
@@ -25,7 +25,7 @@
 }
 
 .bg-img {
-    background-image: url("bg-image.jpg");
+    background-image: url("images/bg-image.jpg");
     background-size: cover;
     width: 100vw;
     height: 100vh;
